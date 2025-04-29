@@ -5,6 +5,8 @@ import Jeux from './components/Jeux';
 import Apropos from './components/Apropos';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import Login from './components/Login';
+import Register from './components/Register';
 import './index.css';
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
               </>
             }
           />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </div>
     </Router>

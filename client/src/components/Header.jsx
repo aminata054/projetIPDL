@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // Ajout de Link pour la navigation
 import logo from '../assets/img/logo2.png';
 
 function Header() {
@@ -20,11 +20,13 @@ function Header() {
             <a href="#contact">Nous contacter</a>
           </div>
           <div
-            className="flex justify-start items-center shadow shadow-black/50 bg-[#722714] h-9 rounded-full w-1/3 text-sm"
+            className="flex justify-start items-center shadow shadow-black/50 bg-[#722714] h-9 rounded-full w-1/3 text-sm cursor-pointer"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <div className="m-auto flex justify-center items-center shadow shadow-black/50 h-8 rounded-full w-1/2 bg-contain bg-[url('/src/assets/img/african-pattern.png')]">
-              <span className={`${isMenuOpen ? '' : 'hidden'} text-white`}>Se connecter</span>
+              <Link to="/login" className={`${isMenuOpen ? '' : 'hidden'} text-white`}>
+                Se connecter
+              </Link>
             </div>
             <span className={`m-auto italic text-white ${isMenuOpen ? 'hidden' : ''}`}>
               Se connecter
