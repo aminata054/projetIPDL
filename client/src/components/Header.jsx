@@ -1,12 +1,18 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom'; // Ajout de Link pour la navigation
+import { Link, useLocation } from 'react-router-dom';
 import logo from '../assets/img/logo2.png';
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+
+  // Afficher le header uniquement sur la page d'accueil
+  if (location.pathname !== '/') {
+    return null;
+  }
 
   return (
-    <header className="fixed top-0 z-50 w-full bg-white text-blue-800 font-bold shadow shadow-black/50 rounded-br-full rounded-bl-full">
+    <header className="w-full bg-white text-blue-800 font-bold shadow shadow-black/50 rounded-br-full rounded-bl-full">
       <div className="flex justify-center items-center relative">
         <div className="ml-12 flex justify-start items-start w-full">
           <Link to="/">
