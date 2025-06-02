@@ -10,7 +10,7 @@ import plan3 from '../assets/img/10.png';
 import partie1 from '../assets/img/bg.webp';
 import logoWhite from '../assets/img/logoWhite.png';
 
-function Dashboard() {
+function DashboardJoueur() {
   const [joueur] = useState({
     prenom: 'Jasmeen',
     nom: 'Cruz',
@@ -365,4 +365,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default DashboardJoueur;

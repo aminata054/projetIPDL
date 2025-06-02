@@ -25,16 +25,15 @@ function Register() {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:8000/api/register', {
-        name,
+      const response = await axios.post('http://localhost:8080/api/auth/register', {
+        username: name, // Utiliser "username" au lieu de "name"
         email,
         password,
-        password_confirmation: passwordConfirmation,
       });
-      localStorage.setItem('token', response.data.token);
-      navigate('/');
+      // Si le backend ne renvoie pas de token, rediriger directement après l'inscription
+      navigate('/login'); // Rediriger vers la page de connexion après inscription réussie
     } catch (err) {
-      setError('Erreur lors de l’inscription. Vérifiez vos informations.');
+      setError(err.response?.data?.message || 'Erreur lors de l’inscription. Vérifiez vos informations.');
     } finally {
       setLoading(false);
     }
@@ -167,9 +166,8 @@ function Register() {
               whileTap={{ scale: 0.95 }}
               type="submit"
               disabled={loading}
-              className={`w-full bg-[#e59b2e] text-white font-semibold rounded-full py-3 transition duration-300 ${
-                loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#722714]'
-              }`}
+              className={`w-full bg-[#e59b2e] text-white font-semibold rounded-full py-3 transition duration-300 ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#722714]'
+                }`}
             >
               {loading ? 'Inscription...' : 'S’inscrire'}
             </motion.button>

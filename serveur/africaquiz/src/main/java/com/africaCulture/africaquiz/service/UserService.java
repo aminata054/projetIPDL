@@ -3,8 +3,6 @@ package com.africaCulture.africaquiz.service;
 import com.africaCulture.africaquiz.model.User;
 import com.africaCulture.africaquiz.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,10 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService implements UserDetailsService { // Implements UserDetailsService
 
   @Autowired
   private UserRepository userRepository;
@@ -53,9 +50,20 @@ public class UserService implements UserDetailsService {
         .orElseThrow(
             () -> new UsernameNotFoundException("Utilisateur non trouvé avec le nom d'utilisateur : " + username));
 
-    List<GrantedAuthority> authorities = new ArrayList<>();
-    authorities.add(new SimpleGrantedAuthority(user.getRole())); // Ajouter le rôle comme une autorité
+    // Spring Security's User object takes username, password, and a collection of
+    // authorities (roles)
+    // For now, we don't have roles, so we pass an empty list
+    return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+        new ArrayList<>());
+  }
 
-    return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+  public UserDetails loadUserByUsernameOrEmail(String identifier) throws UsernameNotFoundException {
+    User user = userRepository.findByUsername(identifier)
+        .orElseGet(() -> userRepository.findByEmail(identifier)
+            .orElseThrow(
+                () -> new UsernameNotFoundException("Utilisateur non trouvé avec l'identifiant : " + identifier)));
+
+    return new org.springframework.security.core.userdetails.User(
+        user.getUsername(), user.getPassword(), new ArrayList<>());
   }
 }
