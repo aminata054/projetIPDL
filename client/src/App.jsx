@@ -8,7 +8,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Login from './components/Login';
 import Register from './components/Register';
-import Dashboard from './joueur/Dashboard';
+import DashboardJoueur from './joueur/Dashboard';
 
 function App() {
   return (
@@ -30,7 +30,7 @@ function App() {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard-joueur" element={<DashboardJoueur />} />
 
         </Routes>
       </div>

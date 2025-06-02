@@ -41,8 +41,8 @@ public class AuthController {
   @PostMapping("/login")
   public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
     try {
-      UserDetails userDetails = userService.loadUserByUsername(loginRequest.getUsername()); // Use the
-                                                                                            // UserDetailsService method
+      UserDetails userDetails = userService.loadUserByUsernameOrEmail(loginRequest.getUsername()); // Use the
+      // UserDetailsService method
 
       if (passwordEncoder.matches(loginRequest.getPassword(), userDetails.getPassword())) {
         // Authentication successful, generate JWT
@@ -57,4 +57,5 @@ public class AuthController {
       return new ResponseEntity<>("Nom d'utilisateur incorrect.", HttpStatus.UNAUTHORIZED);
     }
   }
+
 }

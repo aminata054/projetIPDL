@@ -18,19 +18,18 @@ function Login() {
     setLoading(true);
     setError('');
     try {
-      const response = await axios.post('http://localhost:8000/api/login', {
-        email,
+      const response = await axios.post(`http://localhost:8080/api/auth/login`, {
+        username: email, // Traiter l'email comme identifiant
         password,
       });
-      localStorage.setItem('token', response.data.token);
-      navigate('/');
+      localStorage.setItem('token', response.data.token); // Accéder au token dans l'objet JSON
+      navigate('/dashboard-joueur'); // Rediriger vers le tableau de bord
     } catch (err) {
-      setError('Email ou mot de passe incorrect');
+      setError(err.response?.data?.message || 'Email ou mot de passe incorrect');
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <motion.div
@@ -118,9 +117,8 @@ function Login() {
               whileTap={{ scale: 0.95 }}
               type="submit"
               disabled={loading}
-              className={`w-full bg-[#e59b2e] text-white font-semibold rounded-full py-3 transition duration-300 ${
-                loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#722714]'
-              }`}
+              className={`w-full bg-[#e59b2e] text-white font-semibold rounded-full py-3 transition duration-300 ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#722714]'
+                }`}
             >
               {loading ? 'Connexion...' : 'Se connecter'}
             </motion.button>

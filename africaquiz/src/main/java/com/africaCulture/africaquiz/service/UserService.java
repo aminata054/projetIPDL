@@ -56,4 +56,14 @@ public class UserService implements UserDetailsService { // Implements UserDetai
     return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
         new ArrayList<>());
   }
+
+  public UserDetails loadUserByUsernameOrEmail(String identifier) throws UsernameNotFoundException {
+    User user = userRepository.findByUsername(identifier)
+        .orElseGet(() -> userRepository.findByEmail(identifier)
+            .orElseThrow(
+                () -> new UsernameNotFoundException("Utilisateur non trouvé avec l'identifiant : " + identifier)));
+
+    return new org.springframework.security.core.userdetails.User(
+        user.getUsername(), user.getPassword(), new ArrayList<>());
+  }
 }
