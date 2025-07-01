@@ -1,0 +1,58 @@
+version: '3'
+services:
+  # Service de base de données
+  db:
+    image: postgres
+    container_name: africaquiz
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=passer123
+      - POSTGRES_DB=africaquiz
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - quiz-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Service backend
+  backend:
+    image: africaquiz-back
+    container_name: backend-quiz
+    build: ./serveur/africaquiz
+    ports:
+      - "8080:8080"
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=passer123
+      - POSTGRES_DB=africaquiz
+    networks:
+      - quiz-network
+    depends_on:
+      - db
+
+  # Service frontend
+  frontend:
+    image: africaquiz-front
+    container_name: frontend-quiz
+    build: ./client
+    ports:
+      - "3000:80"
+    networks:
+      - quiz-network
+    depends_on:
+      - backend
+
+networks:
+  quiz-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
