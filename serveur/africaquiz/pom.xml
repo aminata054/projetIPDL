@@ -119,6 +119,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>africaquiz-app</finalName>
 	</build>
 
 </project>
